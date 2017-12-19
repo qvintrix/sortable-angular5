@@ -1,0 +1,25 @@
+<div fxLayout="row wrap" fxLayoutAlign="center center"
+	dnd-sortable-container [sortableData]="data" [dropZones]="['container']">
+	<div *ngFor="let item of data; let i = index">
+		<div class="item" dnd-sortable [sortableIndex]="i" [dragEnabled]="dragCondition"
+			*ngIf="item.chunkType !== 'group'">
+			{{item.chunkType}}
+			{{item.value}}
+		</div>
+		<div class="group" *ngIf="item.chunkType === 'group'"
+			(mouseenter)="mouseEvent(false)"
+			dnd-sortable [sortableIndex]="i" [dragEnabled]="!dragCondition">
+			<div class="container" fxLayout="row wrap" fxLayoutAlign="center center"
+				dnd-sortable-container [sortableData]="item.expression">
+				<div *ngFor="let subItem of item.expression; let x = index"
+					(mouseenter)="mouseEvent(true)">
+					<div class="item" dnd-sortable [sortableIndex]="x" [dragEnabled]="dragCondition"
+						[dragData]="subItem">
+						{{subItem.chunkType}}
+						{{subItem.value}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
