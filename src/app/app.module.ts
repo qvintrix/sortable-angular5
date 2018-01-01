@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { NestedComponent } from './nested/nested.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DndModule } from 'ng2-dnd';
+import { DndListModule } from 'ngx-drag-and-drop-lists';
 
 @NgModule({
 	declarations: [
@@ -15,6 +16,7 @@ import { DndModule } from 'ng2-dnd';
 	imports: [
 		BrowserModule,
 		[FlexLayoutModule],
+		DndListModule,
 		DndModule.forRoot()
 	],
 	providers: [],

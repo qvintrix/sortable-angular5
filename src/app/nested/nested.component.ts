@@ -6,22 +6,43 @@ import { Component, Input, OnInit } from '@angular/core';
 	styleUrls: ['./nested.component.css']
 })
 export class NestedComponent implements OnInit {
-	dragCondition = true;
 	@Input() data;
 
 	constructor() {
 	}
 
 	ngOnInit() {
-		console.log(this.data);
+		this.data = [
+			{
+				'type': 'group',
+				'id': 1,
+				'expression': [
+					{
+						'type': 'item',
+						'id': '1'
+					},
+					{
+						'type': 'item',
+						'id': '2'
+					}
+				]
+			},
+			{
+				'type': 'item',
+				'id': '4'
+			},
+			{
+				'type': 'item',
+				'id': '5'
+			},
+			{
+				'type': 'item',
+				'id': '6'
+			}
+		];
 	}
 
-	mouseEvent(bool) {
-		this.dragCondition = bool;
-		console.log(this.dragCondition)
-	}
-
-	addTo(event) {
-		console.log(event);
+	public removeItem(item: any, list: any[]): void {
+		list.splice(list.indexOf(item), 1);
 	}
 }

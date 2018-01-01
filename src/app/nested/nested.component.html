@@ -1,22 +1,33 @@
 <div fxLayout="row wrap" fxLayoutAlign="center center"
-	dnd-sortable-container [sortableData]="data" [dropZones]="['container']">
-	<div *ngFor="let item of data; let i = index">
-		<div class="item" dnd-sortable [sortableIndex]="i" [dragEnabled]="dragCondition"
-			*ngIf="item.chunkType !== 'group'">
-			{{item.chunkType}}
-			{{item.value}}
+	[dndList]="{
+    allowedTypes: ['item','group']}"
+	[dndModel]="data">
+	<div *ngFor="let item of data">
+		<div class="item" *ngIf="item.type !== 'group'"
+			[dndType]="item.type"
+			(dndMoved)="removeItem(item, data)"
+			[dndDraggable]
+			[dndObject]="item">
+			{{item.type}}
+			{{item.id}}
 		</div>
-		<div class="group" *ngIf="item.chunkType === 'group'"
-			(mouseenter)="mouseEvent(false)"
-			dnd-sortable [sortableIndex]="i" [dragEnabled]="!dragCondition">
-			<div class="container" fxLayout="row wrap" fxLayoutAlign="center center"
-				dnd-sortable-container [sortableData]="item.expression">
-				<div *ngFor="let subItem of item.expression; let x = index"
-					(mouseenter)="mouseEvent(true)">
-					<div class="item" dnd-sortable [sortableIndex]="x" [dragEnabled]="dragCondition"
-						[dragData]="subItem">
-						{{subItem.chunkType}}
-						{{subItem.value}}
+		<div class="group" *ngIf="item.type === 'group'"
+			[dndType]="item.type"
+			[dndDraggable]
+			(dndMoved)="removeItem(item, data)"
+			[dndObject]="item">
+			<div fxLayout="row wrap" fxLayoutAlign="center center"
+				[dndList]="{
+    			allowedTypes: ['item','group']}"
+				[dndModel]="item.expression">
+				<div *ngFor="let subItem of item.expression">
+					<div class="item"
+						[dndType]="subItem.type"
+						[dndDraggable]="{draggable:true, effectAllowed:'move'}"
+						(dndMoved)="removeItem(subItem, item.expression)"
+						[dndObject]="subItem">
+						{{subItem.type}}
+						{{subItem.id}}
 					</div>
 				</div>
 			</div>
